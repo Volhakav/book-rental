@@ -1,11 +1,14 @@
 import { useState } from "react";
+import fullLogo from './img/full_logo.png';
 
 export default function LogInPage(){
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
     return(
+        
         <div>
-            <h1>Witaj nanasze stronie wypożyczlni książek! Zaloguj się aby rozpocząć</h1>
+            <img src={fullLogo} alt="Logo wypożyczalni" style={{ width: "150px" }} />
+            <h2>Witaj na naszejq stronie wypożyczalni książek! Zaloguj się aby rozpocząć</h2>
             <div>
                 <lable htmlFor="email">Email:</lable>
                 <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
