@@ -51,6 +51,10 @@ export default function LogInPage() {
           <a href="#">Zarejestruj się</a>
         </div>
       </main>
+      <footer className="footer">
+        <p>© 2025 Wypożyczalnia Książek</p>
+      </footer>
+
     </div>
   );
 }

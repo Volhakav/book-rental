@@ -5,7 +5,7 @@
   line-height: 1.5;
   font-weight: 400;
   color: rgba(56, 56, 56, 0.87);
-  background-color: #efe5b2;
+
 }
 
 body {
@@ -19,7 +19,6 @@ body {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 1rem;
 }
 
 .logo {
@@ -30,7 +29,7 @@ body {
 /* GŁÓWNY KONTAINER */
 .login-container {
   max-width: 400px;
-  margin: 2rem auto;
+  margin: 0.5rem auto;
   padding: 2rem;
   background-color: #fbbe68;
   border-radius: 1rem;
@@ -101,6 +100,12 @@ h2 {
 
 .signUp-link a:hover {
   text-decoration: underline;
+}
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.875rem;
+  color: rgba(56,56,56,0.6);
 }
 
 /* RESPONSYWNOŚĆ */
