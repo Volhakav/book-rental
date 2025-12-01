@@ -1,33 +1,120 @@
+/* GLOBAL */
 :root {
+  font-size: 16px; /* 1rem = 16px */
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
   color: rgba(56, 56, 56, 0.87);
-  background-color: #e6d8d8;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: #efe5b2;
 }
-
-
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
   min-height: 100vh;
+  background-color: #eee5e5;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem;
 }
 
+.logo {
+  width: 8rem;
+  height: 8rem;
+}
 
+/* GŁÓWNY KONTAINER */
+.login-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fbbe68;
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem rgba(0,0,0,0.1);
+}
 
+h2 {
+  text-align: center;
+  font-size: 1.75rem;
+  margin-bottom: 2rem;
+}
 
+/* FORMULARZ */
+.logIn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 90%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #4daaaf;
+  outline: none;
+}
+
+/* PRZYCISK LOGOWANIA */
+.loginBtn {
+  margin-top: 1rem;
+  background-color: rgb(77, 174, 176);
+  color: #fff;
+  border-radius: 1rem;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.loginBtn:hover {
+  background-color: rgb(57, 154, 156);
+}
+
+/* LINK DO REJESTRACJI */
+.signUp-link {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.signUp-link a {
+  color: #4daaaf;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.signUp-link a:hover {
+  text-decoration: underline;
+}
+
+/* RESPONSYWNOŚĆ */
+@media (max-width: 500px) {
+  .login-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .logo {
+    width: 6rem;
+  }
+}
