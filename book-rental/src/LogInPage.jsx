@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import fullLogo from './img/full_logo.png';
+
 
 
 export default function LogInPage() {
@@ -48,7 +50,7 @@ export default function LogInPage() {
         </form>
 
         <div className="signUp-link">
-          <a href="#">Zarejestruj się</a>
+          <Link to="/register">Zarejestruj się</Link>
         </div>
       </main>
       <footer className="footer">
