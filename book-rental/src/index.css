@@ -255,3 +255,124 @@ ul li {
     gap: 1rem;
   }
 }
+
+/* DASHBOARD */
+.admin-dashboard {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem 2rem;
+}
+
+/* SECTIONS */
+section {
+  margin-bottom: 2rem;
+}
+
+h1, h2 {
+  color: #383838;
+}
+
+.books-section, .users-section, .rentals-section, .reports-section {
+  background-color: #fbbe68;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem rgba(0,0,0,0.1);
+}
+
+/* BOOK CARD */
+.book-card, .user-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+}
+
+.book-card button, .user-card button {
+  background-color: rgb(77, 174, 176);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+.book-card button:hover, .user-card button:hover {
+  background-color: rgb(57, 154, 156);
+}
+
+/* FORMULARZ DODAWANIA */
+.admin-form {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.admin-form input {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  flex: 1;
+}
+
+.admin-form button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  background-color: rgb(77, 174, 176);
+  color: #fff;
+  cursor: pointer;
+}
+
+.admin-form button:hover {
+  background-color: rgb(57, 154, 156);
+}
+
+/* LISTY */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 0.5rem 0;
+}
+/* PRZYCISKI USUŃ / ZABLOKUJ */
+.book-card button.delete,
+.user-card button.block {
+  background-color: #d9534f; /* czerwony */
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+.book-card button.delete:hover,
+.user-card button.block:hover {
+  background-color: #c9302c; /* ciemniejszy czerwony przy hover */
+}
+
+/* PRZYCISKI DODAJ / EDYTUJ */
+.book-card button.edit,
+.admin-form button,
+.user-card button.reset {
+  background-color: rgb(77, 174, 176);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+.book-card button.edit:hover,
+.admin-form button:hover,
+.user-card button.reset:hover {
+  background-color: rgb(57, 154, 156);
+}
+

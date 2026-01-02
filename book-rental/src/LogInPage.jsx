@@ -1,13 +1,12 @@
 import { useState } from "react";
-import fullLogo from './img/full_logo.png';
 import { Link, useNavigate } from "react-router-dom";
-
-
+import fullLogo from './img/full_logo.png';
 
 export default function LogInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -23,7 +22,13 @@ export default function LogInPage() {
     }
 
     localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
-    navigate("/dashboard");
+
+    // 🔹 przekierowanie w zależności od roli
+    if (foundUser.role === "admin") {
+      navigate("/admin");
+    } else {
+      navigate("/dashboard");
+    }
   };
 
   return (
@@ -42,7 +47,7 @@ export default function LogInPage() {
               id="email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
               required
             />
           </div>
@@ -53,7 +58,7 @@ export default function LogInPage() {
               id="password"
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
               required
             />
           </div>
@@ -65,10 +70,10 @@ export default function LogInPage() {
           <Link to="/register">Zarejestruj się</Link>
         </div>
       </main>
+
       <footer className="footer">
         <p>© 2025 Wypożyczalnia Książek</p>
       </footer>
-
     </div>
   );
 }
