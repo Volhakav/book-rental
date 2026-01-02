@@ -1,18 +1,30 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import fullLogo from './img/full_logo.png';
+import { Link, useNavigate } from "react-router-dom";
 
 
 
 export default function LogInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Email:", email, "Password:", password);
-    // Tutaj  logika logowania
-  }
+
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    const foundUser = users.find(
+      user => user.email === email && user.password === password
+    );
+
+    if (!foundUser) {
+      alert("Nieprawidłowy email lub hasło");
+      return;
+    }
+
+    localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
+    navigate("/dashboard");
+  };
 
   return (
     <div className="login-page">

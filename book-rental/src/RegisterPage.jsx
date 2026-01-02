@@ -10,14 +10,34 @@ export default function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Hasła nie są identyczne!");
-      return;
-    }
-    console.log("Rejestracja:", { name, email, password });
-    // Tutaj logika rejestracji
+  e.preventDefault();
+
+  if (password !== confirmPassword) {
+    alert("Hasła nie są identyczne!");
+    return;
   }
+
+  const newUser = {
+    name,
+    surname,
+    email,
+    password,
+  };
+
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+
+  // ❗ sprawdzamy czy email już istnieje
+  const userExists = users.some(user => user.email === email);
+  if (userExists) {
+    alert("Użytkownik z takim emailem już istnieje");
+    return;
+  }
+
+  users.push(newUser);
+  localStorage.setItem("users", JSON.stringify(users));
+
+  alert("Rejestracja zakończona sukcesem!");
+};
 
   return (
     <div className="register-page">
@@ -45,7 +65,7 @@ export default function RegisterPage() {
             <input
               id="surname"
               type="text"
-              value={name}
+              value={surname}
               onChange={(e) => setSurname(e.target.value)}
               required
             />

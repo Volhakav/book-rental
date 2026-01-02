@@ -123,3 +123,135 @@ h2 {
     width: 6rem;
   }
 }
+
+/* DASHBOARD */
+.dashboard {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fbbe68;
+  border-radius: 1.5rem;
+  box-shadow: 0 0 1.5rem rgba(0,0,0,0.1);
+}
+
+/* === HEADER === */
+.dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.dash-header h1 {
+  font-size: 2rem;
+}
+
+.dash-header button {
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.75rem;
+  border: none;
+  background-color: #d9534f;
+  color: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.dash-header button:hover {
+  background-color: #c9302c;
+}
+
+/* === WYSZUKIWARKA === */
+.search {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 2rem;
+  border-radius: 0.75rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+/* === SEKCJE === */
+section {
+  margin-bottom: 3rem;
+}
+
+section h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+}
+
+/* === KSIĄŻKI === */
+.book-card {
+  background-color: #fff;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.book-card strong {
+  font-size: 1.1rem;
+}
+
+.book-card p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+/* === PRZYCISK WYPOŻYCZ === */
+.book-card button {
+  background-color: #4daeaf;
+  color: #fff;
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.book-card button:hover {
+  background-color: #3a9c9e;
+}
+
+.book-card span {
+  color: #c9302c;
+  font-weight: 500;
+}
+
+/* === HISTORIA === */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  background-color: #f8f8f8;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+
+/* === RESPONSYWNOŚĆ === */
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 1.5rem;
+  }
+
+  .book-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dash-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
