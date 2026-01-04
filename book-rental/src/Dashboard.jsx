@@ -217,34 +217,35 @@ export default function Dashboard() {
 
         {/* KATALOG KSIĄŻEK */}
         <section className="books-section">
-          <h2>Katalog książek</h2>
+        <h2>Katalog książek</h2>
 
-          <input
+        <input
             className="search"
             placeholder="Szukaj książki..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-          />
+        />
 
-          {filteredBooks.length === 0 && <p className="empty">Brak dostępnych książek</p>}
+        {filteredBooks.length === 0 && <p className="empty">Brak dostępnych książek</p>}
 
-          {filteredBooks.map((book) => {
+        {filteredBooks.map((book) => {
             const alreadyRented = myRentals.some(r => r.bookId === book.id);
             return (
-              <div key={book.id} className="book-card">
+            <div key={book.id} className="book-card">
                 <strong>{book.title}</strong> – {book.author}
+                <p>Kategoria: {book.category || "Ogólna"} | Rok wydania: {book.year || "Brak danych"}</p>
                 <p>Dostępność: {book.availableCopies}</p>
 
                 {book.availableCopies > 0 && !alreadyRented ? (
-                  <button onClick={() => rentBook(book.id)}>Wypożycz</button>
+                <button onClick={() => rentBook(book.id)}>Wypożycz</button>
                 ) : alreadyRented ? (
-                  <span>📌 Już wypożyczona</span>
+                <span>📌 Już wypożyczona</span>
                 ) : (
-                  <span>❌ Brak egzemplarzy</span>
+                <span>❌ Brak egzemplarzy</span>
                 )}
-              </div>
+            </div>
             );
-          })}
+        })}
         </section>
 
         {/* HISTORIA WYPOŻYCZEŃ */}
