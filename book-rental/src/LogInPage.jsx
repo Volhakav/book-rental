@@ -23,7 +23,7 @@ export default function LogInPage() {
 
     localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
 
-    // 🔹 przekierowanie w zależności od roli
+    //  przekierowanie w zależności od roli
     if (foundUser.role === "admin") {
       navigate("/admin");
     } else {
@@ -63,7 +63,7 @@ export default function LogInPage() {
             />
           </div>
 
-          <button type="submit" className="loginBtn">Zaloguj się</button>
+          <button type="submit" className="registerBtn">Zaloguj się</button>
         </form>
 
         <div className="signUp-link">
