@@ -19,7 +19,7 @@ export default function AdminDashboard() {
     return <h2>Brak dostępu – tylko administrator</h2>;
   }
 
-  // ➕ Dodawanie książki
+  //  Dodawanie książki
   const addBook = (e) => {
     e.preventDefault();
     const newBook = { id: Date.now(), title, author, availableCopies: Number(copies) };
@@ -29,7 +29,7 @@ export default function AdminDashboard() {
     setTitle(""); setAuthor(""); setCopies(1);
   };
 
-  // ✏️ Edytowanie książki
+  //  Edytowanie książki
   const editBook = (id) => {
     const book = books.find(b => b.id === id);
     const newTitle = prompt("Nowy tytuł:", book.title);
@@ -41,21 +41,21 @@ export default function AdminDashboard() {
     localStorage.setItem("books", JSON.stringify(updated));
   };
 
-  // ❌ Usuwanie książki
+  //  Usuwanie książki
   const deleteBook = (id) => {
     const updated = books.filter(b => b.id !== id);
     setBooks(updated);
     localStorage.setItem("books", JSON.stringify(updated));
   };
 
-  // 👤 Blokowanie/odblokowywanie użytkownika
+  //  Blokowanie/odblokowywanie użytkownika
   const toggleBlockUser = (id) => {
     const updated = users.map(u => u.id === id ? { ...u, blocked: !u.blocked } : u);
     setUsers(updated);
     localStorage.setItem("users", JSON.stringify(updated));
   };
 
-  // 🔑 Resetowanie hasła użytkownika
+  //  Resetowanie hasła użytkownika
   const resetPassword = (id) => {
     const newPassword = prompt("Wprowadź nowe hasło:");
     if (!newPassword) return;
@@ -64,7 +64,7 @@ export default function AdminDashboard() {
     localStorage.setItem("users", JSON.stringify(updated));
   };
 
-  // 🚪 Wylogowanie
+  //  Wylogowanie
   const logout = () => {
     localStorage.removeItem("loggedInUser");
     navigate("/");
@@ -86,7 +86,7 @@ export default function AdminDashboard() {
       <div className="admin-dashboard">
         <h1>Panel administratora 🛠️</h1>
         <button onClick={logout} className="loginBtn">Wyloguj</button>
-        {/* ➕ Dodawanie książki */}
+        {/*  Dodawanie książki */}
         <section className="books-section">
           <h2>Dodaj książkę</h2>
           <form onSubmit={addBook} className="admin-form">
@@ -97,7 +97,7 @@ export default function AdminDashboard() {
           </form>
         </section>
 
-        {/* 📚 Katalog książek */}
+        {/*  Katalog książek */}
         <section className="books-section">
           <h2>Katalog książek</h2>
           {books.map(book => (
@@ -112,7 +112,7 @@ export default function AdminDashboard() {
           ))}
         </section>
 
-        {/* 👥 Zarządzanie użytkownikami */}
+        {/*  Zarządzanie użytkownikami */}
         <section className="users-section">
           <h2>Użytkownicy</h2>
           {users.map(u => (
@@ -129,7 +129,7 @@ export default function AdminDashboard() {
           ))}
         </section>
 
-        {/* 📜 Wypożyczenia */}
+        {/*  Wypożyczenia */}
         <section className="rentals-section">
           <h2>Wypożyczenia</h2>
           <ul>
@@ -142,7 +142,7 @@ export default function AdminDashboard() {
           </ul>
         </section>
 
-        {/* 📊 Raporty */}
+        {/*  Raporty */}
         <section className="reports-section">
           <h2>Statystyki wypożyczeń</h2>
           <ul>

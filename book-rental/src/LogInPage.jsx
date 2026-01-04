@@ -1,11 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import fullLogo from './img/full_logo.png';
+import fullLogo from "./img/full_logo.png";
 
 export default function LogInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  // ✅ DOMYŚLNY ADMIN – TYLKO RAZ
+  useEffect(() => {
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+
+  const updatedUsers = users.filter(u => u.email !== "admin@gmail.com");
+
+  updatedUsers.push({
+    id: 1,
+    name: "Admin",
+    surname: "System",
+    email: "admin@gmail.com",
+    password: "!admin123",
+    role: "admin",
+    blocked: false,
+    verified: true,
+    preferences: {
+      language: "pl",
+      notifications: false
+    }
+  });
+
+  localStorage.setItem("users", JSON.stringify(updatedUsers));
+}, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,13 +47,14 @@ export default function LogInPage() {
 
     localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
 
-    //  przekierowanie w zależności od roli
+    // ✅ decyzja na podstawie ROLI
     if (foundUser.role === "admin") {
       navigate("/admin");
     } else {
       navigate("/dashboard");
     }
   };
+
 
   return (
     <div className="login-page">
