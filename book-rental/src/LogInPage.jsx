@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import fullLogo from "./img/full_logo.png";
+
 
 export default function LogInPage() {
   const [email, setEmail] = useState("");
@@ -31,27 +34,27 @@ export default function LogInPage() {
   localStorage.setItem("users", JSON.stringify(updatedUsers));
 }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    try {
+      const response = await axios.post("http://localhost:8082/api/konto/login", {
+        email,
+        password
+      });
 
-    const foundUser = users.find(
-      user => user.email === email && user.password === password
-    );
+      const loggedUser = response.data; // zakładamy, że backend zwraca DTO konta
+      localStorage.setItem("loggedInUser", JSON.stringify(loggedUser));
 
-    if (!foundUser) {
+      if (loggedUser.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
+      }
+
+    } catch (error) {
+      console.error(error);
       alert("Nieprawidłowy email lub hasło");
-      return;
-    }
-
-    localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
-
-    // ✅ decyzja na podstawie ROLI
-    if (foundUser.role === "admin") {
-      navigate("/admin");
-    } else {
-      navigate("/dashboard");
     }
   };
 

@@ -1,4 +1,6 @@
+import axios from 'axios';
 import { useState } from "react";
+
 import { Link, useNavigate } from "react-router-dom";
 import fullLogo from "./img/full_logo.png";
 
@@ -24,7 +26,7 @@ export default function RegisterPage() {
     setForm({ ...form, [name]: type === "checkbox" ? checked : value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Sprawdzenie haseł
@@ -34,8 +36,7 @@ export default function RegisterPage() {
     }
 
     // Weryfikacja wieku
-    const age =
-      new Date().getFullYear() - new Date(form.birthDate).getFullYear();
+    const age = new Date().getFullYear() - new Date(form.birthDate).getFullYear();
     if (age < 13) {
       alert("Musisz mieć minimum 13 lat");
       return;
@@ -47,36 +48,32 @@ export default function RegisterPage() {
       return;
     }
 
-    // Sprawdzenie czy email już istnieje
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    if (users.some((u) => u.email === form.email)) {
-      alert("Użytkownik z tym emailem już istnieje");
-      return;
+    try {
+      // Wysyłka danych do backendu
+      const response = await axios.post("http://localhost:8082/api/konto", {
+        name: form.name,
+        surname: form.surname,
+        email: form.email,
+        password: form.password,
+        birthDate: form.birthDate,
+        role: form.role
+      });
+
+      // Odpowiedź z backendu
+      alert("Rejestracja zakończona sukcesem!");
+      navigate("/"); // przekierowanie na stronę logowania
+
+    } catch (error) {
+      console.error("Błąd rejestracji:", error);
+      if (error.response && error.response.data) {
+        alert("Błąd: " + error.response.data.message);
+      } else {
+        alert("Wystąpił błąd podczas rejestracji.");
+      }
     }
-
-    // Tworzenie nowego użytkownika
-    const newUser = {
-      id: Date.now(),
-      name: form.name,
-      surname: form.surname,
-      email: form.email,
-      password: form.password,
-      birthDate: form.birthDate,
-      role: form.role, // rola zgodnie z wyborem
-      verified: true,
-      blocked: false,
-      preferences: {
-        language: "pl",
-        notifications: true,
-      },
-    };
-
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
-
-    alert("Rejestracja zakończona sukcesem!");
-    navigate("/");
   };
+
+  
 
   return (
     <div className="register-page">

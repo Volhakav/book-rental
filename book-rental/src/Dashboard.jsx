@@ -4,21 +4,35 @@ import fullLogo from "./img/full_logo.png";
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const loggedUser = JSON.parse(localStorage.getItem("loggedInUser"));
 
-  const [user, setUser] = useState(loggedUser);
+  const storedUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+  const [user, setUser] = useState(() => {
+    if (!storedUser) return null;
+
+    return {
+      id: storedUser.id,
+      name: storedUser.name || "Użytkownik",
+      surname: storedUser.surname || "",
+      email: storedUser.email || storedUser.login || "",
+      role: storedUser.role || storedUser.rola || "user",
+      blocked: storedUser.blocked ?? false,
+      preferences: storedUser.preferences ?? { notifications: false }
+    };
+  });
+
   const [books, setBooks] = useState([]);
   const [rentals, setRentals] = useState([]);
   const [search, setSearch] = useState("");
   const [editProfile, setEditProfile] = useState(false);
   const [profileForm, setProfileForm] = useState({
-    name: loggedUser?.name || "",
-    surname: loggedUser?.surname || "",
-    email: loggedUser?.email || "",
+    name: user?.name || "",
+    surname: user?.surname || "",
+    email: user?.email || ""
   });
 
   /* =========================
-     SYNCHRONIZACJA Z SYSTEMEM
+     DANE
   ========================= */
   useEffect(() => {
     setBooks(JSON.parse(localStorage.getItem("books")) || []);
@@ -26,19 +40,13 @@ export default function Dashboard() {
   }, []);
 
   if (!user || user.blocked) {
-    return <h2 className="no-access">Konto zablokowane lub brak dostępu</h2>;
+    return <h2 className="no-access">Brak dostępu lub konto zablokowane</h2>;
   }
 
   /* =========================
-     FUNKCJE PROFILU
+     PROFIL
   ========================= */
   const saveUser = (updatedUser) => {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const updatedUsers = users.map((u) =>
-      u.id === updatedUser.id ? updatedUser : u
-    );
-
-    localStorage.setItem("users", JSON.stringify(updatedUsers));
     localStorage.setItem("loggedInUser", JSON.stringify(updatedUser));
     setUser(updatedUser);
   };
@@ -46,16 +54,15 @@ export default function Dashboard() {
   const changePassword = () => {
     const newPass = prompt("Podaj nowe hasło:");
     if (!newPass) return;
-    saveUser({ ...user, password: newPass });
+    alert("Hasło zmienione (demo – backend później)");
   };
 
   const toggleNotifications = () => {
     saveUser({
       ...user,
       preferences: {
-        ...user.preferences,
-        notifications: !user.preferences.notifications,
-      },
+        notifications: !user.preferences.notifications
+      }
     });
   };
 
@@ -65,33 +72,18 @@ export default function Dashboard() {
   };
 
   const saveProfile = () => {
-    if (!profileForm.name || !profileForm.surname || !profileForm.email) {
-      alert("Imię, nazwisko i email są wymagane");
+    if (!profileForm.name || !profileForm.email) {
+      alert("Imię i email są wymagane");
       return;
     }
 
-    if (!profileForm.email.includes("@")) {
-      alert("Niepoprawny email");
-      return;
-    }
-
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const emailTaken = users.some(
-      (u) => u.email === profileForm.email && u.id !== user.id
-    );
-    if (emailTaken) {
-      alert("Email jest już używany przez innego użytkownika");
-      return;
-    }
-
-    const updatedUser = {
+    saveUser({
       ...user,
       name: profileForm.name,
       surname: profileForm.surname,
-      email: profileForm.email,
-    };
+      email: profileForm.email
+    });
 
-    saveUser(updatedUser);
     setEditProfile(false);
   };
 
@@ -115,12 +107,12 @@ export default function Dashboard() {
       userId: user.id,
       bookId,
       rentDate: new Date().toISOString(),
-      dueDate: dueDate.toISOString(),
+      dueDate: dueDate.toISOString()
     };
 
     const updatedRentals = [...rentals, newRental];
-    localStorage.setItem("rentals", JSON.stringify(updatedRentals));
     setRentals(updatedRentals);
+    localStorage.setItem("rentals", JSON.stringify(updatedRentals));
 
     const updatedBooks = books.map((b) =>
       b.id === bookId
@@ -128,8 +120,8 @@ export default function Dashboard() {
         : b
     );
 
-    localStorage.setItem("books", JSON.stringify(updatedBooks));
     setBooks(updatedBooks);
+    localStorage.setItem("books", JSON.stringify(updatedBooks));
   };
 
   const myRentals = rentals.filter((r) => r.userId === user.id);

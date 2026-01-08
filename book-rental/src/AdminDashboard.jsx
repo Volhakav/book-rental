@@ -108,8 +108,10 @@ export default function AdminDashboard() {
       </header>
 
       <div className="admin-dashboard">
-        <h1>Panel administratora 🛠️</h1>
-        <button onClick={logout} className="loginBtn">Wyloguj</button>
+        <div className="dashboard-top">
+            <h1>Panel administratora 🛠️</h1>
+            <button onClick={logout} className="loginBtn">Wyloguj</button>
+        </div>
 
         {/* DODAWANIE */}
         <section className="books-section">
