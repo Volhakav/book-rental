@@ -34,6 +34,22 @@ export default function AdminDashboard() {
   const [year, setYear] = useState("");
   const [copies, setCopies] = useState(1);
 
+  const [categories, setCategories] = useState([]);
+    const [categoryId, setCategoryId] = useState(1); // domyślnie Ogólna
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+            const res = await axios.get("http://localhost:8082/api/kategoria");
+            setCategories(res.data);
+            setCategoryId(res.data[0]?.id || 1); // ustaw pierwszą kategorię domyślnie
+            } catch (err) {
+            console.error("Błąd pobierania kategorii:", err);
+            }
+        };
+        fetchCategories();
+    }, []);
+
   // Edycja profilu
   const [editProfile, setEditProfile] = useState(false);
   const [profileForm, setProfileForm] = useState({
@@ -148,7 +164,7 @@ export default function AdminDashboard() {
                 tytul: title,
                 autor: author,
                 rokWydania: Number(year),
-                kategoriaId: category === "Ogólna" ? 1 : category === "Fantasy" ? 2 : category === "Nauka" ? 3 : 4
+                kategoriaId: categoryId,
             };
 
             const response = await axios.post("http://localhost:8082/api/ksiazki", newBook);
@@ -274,11 +290,10 @@ export default function AdminDashboard() {
             <input placeholder="Tytuł" value={title} onChange={e => setTitle(e.target.value)} required />
             <input placeholder="Autor" value={author} onChange={e => setAuthor(e.target.value)} required />
             <input placeholder="Rok wydania" value={year} onChange={e => setYear(e.target.value)} />
-            <select value={category} onChange={e => setCategory(e.target.value)}>
-              <option>Ogólna</option>
-              <option>Fantasy</option>
-              <option>Nauka</option>
-              <option>Historia</option>
+            <select value={categoryId} onChange={e => setCategoryId(Number(e.target.value))}>
+                {categories.map(cat => (
+                    <option key={cat.id} value={cat.id}>{cat.nazwa}</option>
+                ))}
             </select>
             <input type="number" min="1" value={copies} onChange={e => setCopies(e.target.value)} />
             <button type="submit">Dodaj</button>
@@ -288,13 +303,14 @@ export default function AdminDashboard() {
           {books.map(b => (
                 <div key={b.id} className="book-card">
                     <strong>{b.tytul}</strong> – {b.autor}
-                    <p>Kategoria: {b.kategoria} | Rok: {b.rokWydania}</p>
+                    <p>Kategoria: {b.kategoriaNazwa} | Rok: {b.rokWydania}</p>
                     <p>Egzemplarze: {b.availableCopies ?? 1}</p>
                     <p>Status: {b.active ? "Aktywna" : "Ukryta"}</p>
                     <button onClick={() => toggleBookStatus(b.id)}>{b.active ? "Ukryj" : "Aktywuj"}</button>
                     <button className="delete" onClick={() => deleteBook(b.id)}>Usuń</button>
                 </div>
             ))}
+
 
         </section>
 
