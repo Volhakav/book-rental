@@ -451,3 +451,30 @@ li {
   background-color: rgb(57, 154, 156);
 }
 
+/* Kontener dla selecta – spójne z innymi polami formularza */
+.form-group select {
+  width: 100%;            /* Pełna szerokość, jak inputy */
+  padding: 10px 12px;     /* Wewnętrzny odstęp */
+  font-size: 16px;         /* Rozmiar czcionki jak w inputach */
+  border: 1px solid #ccc; /* Lekko szary border */
+  border-radius: 6px;      /* Zaokrąglone rogi */
+  background-color: #fff;  /* Białe tło */
+  color: #333;             /* Tekst w ciemnym kolorze */
+  box-sizing: border-box;  /* Uwzględnia padding w szerokości */
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Efekt focus – tak jak w inputach */
+.form-group select:focus {
+  border-color: #4a90e2;      /* Akcentowy kolor formularza */
+  outline: none;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+/* Opcje w select – lekki padding, spójny z designem */
+.form-group select option {
+  padding: 8px;
+  font-size: 16px;
+}
+
+

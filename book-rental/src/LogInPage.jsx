@@ -4,36 +4,12 @@ import axios from "axios";
 
 import fullLogo from "./img/full_logo.png";
 
-
 export default function LogInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // ✅ DOMYŚLNY ADMIN – TYLKO RAZ
-  useEffect(() => {
-  const users = JSON.parse(localStorage.getItem("users")) || [];
-
-  const updatedUsers = users.filter(u => u.email !== "admin@gmail.com");
-
-  updatedUsers.push({
-    id: 1,
-    name: "Admin",
-    surname: "System",
-    email: "admin@gmail.com",
-    password: "!admin123",
-    role: "admin",
-    blocked: false,
-    verified: true,
-    preferences: {
-      language: "pl",
-      notifications: false
-    }
-  });
-
-  localStorage.setItem("users", JSON.stringify(updatedUsers));
-}, []);
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -43,21 +19,23 @@ export default function LogInPage() {
         password
       });
 
-      const loggedUser = response.data; // zakładamy, że backend zwraca DTO konta
+      const loggedUser = response.data; 
       localStorage.setItem("loggedInUser", JSON.stringify(loggedUser));
 
-      if (loggedUser.role === "admin") {
+      const role = loggedUser.role || loggedUser.rola;
+
+      if (role?.toLowerCase() === "admin") {
         navigate("/admin");
       } else {
         navigate("/dashboard");
       }
+
 
     } catch (error) {
       console.error(error);
       alert("Nieprawidłowy email lub hasło");
     }
   };
-
 
   return (
     <div className="login-page">
