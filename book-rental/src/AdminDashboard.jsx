@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import fullLogo from "./img/full_logo.png";
+import axios from "axios";
+
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -54,7 +56,7 @@ export default function AdminDashboard() {
   }
 
   useEffect(() => {
-        if (!storedUser) {
+        if (!user) {
             navigate("/");
             return;
         }
@@ -98,7 +100,7 @@ export default function AdminDashboard() {
                 name: data.name,
                 surname: data.surname,
                 email: data.login,
-                role: data.rola,
+                role: data.rola || user.role || "admin",
                 blocked: user.blocked,
                 preferences: user.preferences
             };
@@ -137,34 +139,60 @@ export default function AdminDashboard() {
   /* =========================
      KSIĄŻKI
   ========================= */
-  const addBook = (e) => {
-    e.preventDefault();
-    const newBook = {
-      id: Date.now(),
-      title,
-      author,
-      category,
-      year,
-      availableCopies: Number(copies),
-      active: true,
+
+
+    const addBook = async (e) => {
+        e.preventDefault();
+        try {
+            const newBook = {
+                tytul: title,
+                autor: author,
+                rokWydania: Number(year),
+                kategoriaId: category === "Ogólna" ? 1 : category === "Fantasy" ? 2 : category === "Nauka" ? 3 : 4
+            };
+
+            const response = await axios.post("http://localhost:8082/api/ksiazki", newBook);
+            const savedBook = response.data;
+
+            setBooks((prev) => [...prev, savedBook]);
+            setTitle("");
+            setAuthor("");
+            setCategory("Ogólna");
+            setYear("");
+            setCopies(1);
+        } catch (err) {
+            console.error("Błąd dodawania książki:", err);
+            alert("Nie udało się dodać książki");
+        }
     };
-    const updated = [...books, newBook];
-    setBooks(updated);
-    localStorage.setItem("books", JSON.stringify(updated));
-    setTitle(""); setAuthor(""); setCategory("Ogólna"); setYear(""); setCopies(1);
-  };
 
-  const toggleBookStatus = (id) => {
-    const updated = books.map(b => b.id === id ? { ...b, active: !b.active } : b);
-    setBooks(updated);
-    localStorage.setItem("books", JSON.stringify(updated));
-  };
 
-  const deleteBook = (id) => {
-    const updated = books.filter(b => b.id !== id);
-    setBooks(updated);
-    localStorage.setItem("books", JSON.stringify(updated));
-  };
+
+    const toggleBookStatus = async (id) => {
+        try {
+            const book = books.find(b => b.id === id);
+            const updatedBook = { ...book, active: !book.active };
+
+            const response = await axios.put(`http://localhost:8082/api/ksiazki/${id}`, updatedBook);
+            const savedBook = response.data;
+
+            setBooks((prev) => prev.map(b => b.id === id ? savedBook : b));
+        } catch (err) {
+            console.error("Błąd zmiany statusu książki:", err);
+            alert("Nie udało się zmienić statusu książki");
+        }
+    };
+
+    const deleteBook = async (id) => {
+        try {
+            await axios.delete(`http://localhost:8082/api/ksiazki/${id}`);
+            setBooks((prev) => prev.filter(b => b.id !== id));
+        } catch (err) {
+            console.error("Błąd usuwania książki:", err);
+            alert("Nie udało się usunąć książki");
+        }
+    };
+
 
   /* =========================
      UŻYTKOWNICY
@@ -258,15 +286,16 @@ export default function AdminDashboard() {
 
           <h2>Katalog książek</h2>
           {books.map(b => (
-            <div key={b.id} className="book-card">
-              <strong>{b.title}</strong> – {b.author}
-              <p>Kategoria: {b.category} | Rok: {b.year}</p>
-              <p>Egzemplarze: {b.availableCopies}</p>
-              <p>Status: {b.active ? "Aktywna" : "Ukryta"}</p>
-              <button onClick={() => toggleBookStatus(b.id)}>{b.active ? "Ukryj" : "Aktywuj"}</button>
-              <button className="delete" onClick={() => deleteBook(b.id)}>Usuń</button>
-            </div>
-          ))}
+                <div key={b.id} className="book-card">
+                    <strong>{b.tytul}</strong> – {b.autor}
+                    <p>Kategoria: {b.kategoria} | Rok: {b.rokWydania}</p>
+                    <p>Egzemplarze: {b.availableCopies ?? 1}</p>
+                    <p>Status: {b.active ? "Aktywna" : "Ukryta"}</p>
+                    <button onClick={() => toggleBookStatus(b.id)}>{b.active ? "Ukryj" : "Aktywuj"}</button>
+                    <button className="delete" onClick={() => deleteBook(b.id)}>Usuń</button>
+                </div>
+            ))}
+
         </section>
 
         {/* UŻYTKOWNICY */}
