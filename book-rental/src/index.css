@@ -471,10 +471,41 @@ li {
   box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
 }
 
-/* Opcje w select – lekki padding, spójny z designem */
+
 .form-group select option {
   padding: 8px;
   font-size: 16px;
 }
+
+.returnBtn {
+    background-color: #4CAF50; /* zielony */
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    margin-top: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.returnBtn:hover {
+    background-color: #45a049;
+}
+
+.rental-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.rental-item .alert {
+    color: red;
+    margin-left: 6px;
+    font-weight: bold;
+}
+
 
 
