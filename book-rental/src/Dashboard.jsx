@@ -78,19 +78,22 @@ export default function Dashboard() {
 
             let updatedUser = await res.json();
 
-            updatedUser = {
+            const normalizedUser = {
                 ...updatedUser,
+                email: updatedUser.email || updatedUser.login,
+                role: updatedUser.role || updatedUser.rola,
                 preferences: updatedUser.preferences ?? { notifications: false }
             };
 
-            localStorage.setItem("loggedInUser", JSON.stringify(updatedUser));
-            setUser(updatedUser);
+            localStorage.setItem("loggedInUser", JSON.stringify(normalizedUser));
+            setUser(normalizedUser);
             setEditProfile(false);
 
         } catch (err) {
             alert("Błąd zapisu profilu");
         }
     };
+
 
     const toggleNotifications = () => {
         const updatedUser = {
